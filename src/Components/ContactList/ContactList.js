@@ -10,7 +10,7 @@ function ContactList({ list, deleteContact }) {
           key={contact.id}
           name={contact.name}
           number={contact.number}
-          deleteContact={deleteContact}
+          deleteContact={() => deleteContact(contact.id)}
         />
       ))}
     </ul>

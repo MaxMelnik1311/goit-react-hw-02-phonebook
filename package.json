@@ -10,7 +10,7 @@
     "react-scripts": "3.2.0",
     "shortid": "^2.2.15"
   },
-  "homepage": "https://MaxMelnik1311.github.io/goit-react-hw-03-bank-account",
+  "homepage": "https://MaxMelnik1311.github.io/goit-react-hw-02-phonebook",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
