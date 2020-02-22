@@ -6,6 +6,8 @@ import ContactForm from './Components/ContactForm/ContactForm';
 import ContactList from './Components/ContactList/ContactList';
 import Filter from './Components/Filter/Filter';
 
+import isNameAvailable from './Functions/isNameAvailable';
+
 export default class App extends Component {
   state = {
     contacts: [],
@@ -19,12 +21,11 @@ export default class App extends Component {
       name,
       number,
     };
-    const findAddedContact = (contacts, person) =>
-      contacts.find(item => item.name === person);
 
-    if (findAddedContact(this.state.contacts, contact.name)) {
+    if (isNameAvailable(this.state.contacts, contact.name)) {
       return notyf.error(`${contact.name} is already exists in contacts!`);
     }
+
     this.setState(prevState => {
       return {
         contacts: [...prevState.contacts, contact],
@@ -38,6 +39,10 @@ export default class App extends Component {
         contacts: prevState.contacts.filter(({ id }) => id !== contactId),
       };
     });
+
+    if (this.state.contacts.length <= 2) {
+      this.setState({ filter: '' });
+    }
   };
 
   changeFilter = filter => {
@@ -53,7 +58,7 @@ export default class App extends Component {
   };
 
   render() {
-    const { filter } = this.state;
+    const { filter, contacts } = this.state;
     const visibleContacts = this.getVisibleContacts();
     return (
       <div>
@@ -61,7 +66,9 @@ export default class App extends Component {
         <ContactForm submitContactInfo={this.addContact} />
         <h2>Contacts</h2>
 
-        <Filter value={filter} onChangeFilter={this.changeFilter} />
+        {contacts.length >= 2 && (
+          <Filter value={filter} onChangeFilter={this.changeFilter} />
+        )}
         <ContactList
           list={visibleContacts}
           deleteContact={this.deleteContact}
